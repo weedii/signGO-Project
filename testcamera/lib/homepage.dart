@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const CameraPage()),
+                          builder: (context) => VideoRecordingPage()),
                     );
                   },
                   child: const Text(

@@ -8,11 +8,11 @@ Future<void> main() async {
     return const HomePage();
   };
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const SignGO());
+  runApp(const signGO());
 }
 
-class SignGO extends StatelessWidget {
-  const SignGO({super.key});
+class signGO extends StatelessWidget {
+  const signGO({super.key});
 
   @override
   Widget build(BuildContext context) {

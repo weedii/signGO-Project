@@ -40,6 +40,8 @@ dependencies:
   http: ^1.0.0
   logger: ^1.3.0
   path_provider: ^2.0.15
+  image_picker:
+  video_player:
 
 dev_dependencies:
   flutter_test:
