@@ -1,60 +1,60 @@
 import base64
-import socket
+import os
 from flask import Flask, request, jsonify
 import cv2
 import numpy as np
 from celery import Celery
-from celery.utils.log import get_task_logger
-
 
 app = Flask(__name__)
-
-# Create a socket object
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-# Connect to the server
-server_address = ('localhost', 5000)
-client_socket.connect(server_address)
+celery = Celery('module1', broker='redis://localhost:6379/0')
 
 i = 0
 
-
-@app.route('/upload', methods=['POST'])
-def upload():
-    global i
+@celery.task(bind=True)
+def process_image(self, image_data):
     try:
-        # Get the uploaded image from the request
-        image_data = request.data
-
         # Decode the Base64-encoded image data to bytes
         image_bytes = base64.b64decode(image_data)
 
         # Convert the image bytes to a NumPy array
         image_array = np.frombuffer(image_bytes, dtype=np.uint8)
-        print(f"image_array shape: {image_array.shape}")
-        print(f"image_array dtype: {image_array.dtype}")
 
         # Decode the image array and convert it to a normal image
         image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
+
+        return image
+    except Exception as e:
+        return str(e)
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    global i
+    try:
+        image_data = request.data
+
+        image = process_image.delay(image_data).get()  # Asynchronously call the process_image task and get the result
+
         if image is None:
             print("Failed to convert image")
 
-        # Save the image to a file
-        cv2.imwrite(f"x/image{i}.png", image)
+        # Create the directory if it doesn't exist
+        if not os.path.exists('x'):
+            os.makedirs('x')
+
+        image_path = f'x/image{i}.png'
+        cv2.imwrite(image_path, image)
         i += 1
 
-        ##############################################
         predicted_class = "result will be here"
 
-        # Create a JSON response
         response = {
-            'predicted_class': predicted_class
+            'predicted_class': predicted_class,
+            'image_path': image_path
         }
 
         return jsonify(response)
 
     except Exception as e:
-        #client_socket.sendall('test')
         return str(e)
 
 
