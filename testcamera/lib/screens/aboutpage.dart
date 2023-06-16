@@ -52,32 +52,42 @@ class AboutPage extends StatelessWidget {
 
         //
         // Zaa Body is here
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.blue,
-                Colors.purple,
-              ],
-            ),
-          ),
-          child: const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Learn more about us",
-                  style: TextStyle(
-                    fontFamily: 'Pacifico',
-                    fontSize: 25.0,
-                    color: Colors.white,
-                  ),
+        body: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.blue,
+                    Colors.purple,
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/sorry.gif', // Replace with your GIF file path
+                    width: 200,
+                    height: 200,
+                    fit: BoxFit.contain,
+                  ),
+                  const Text(
+                    "Learn more about us",
+                    style: TextStyle(
+                      fontFamily: 'Pacifico',
+                      fontSize: 25.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

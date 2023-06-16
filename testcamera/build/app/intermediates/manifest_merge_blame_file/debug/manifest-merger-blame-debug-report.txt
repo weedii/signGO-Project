@@ -13,14 +13,14 @@
 13         to allow setting breakpoints, to provide hot reload, etc.
 14    -->
 15    <uses-permission android:name="android.permission.INTERNET" />
-15-->C:\Users\abidi\Desktop\api\signGO-Project\testcamera\android\app\src\debug\AndroidManifest.xml:6:5-66
-15-->C:\Users\abidi\Desktop\api\signGO-Project\testcamera\android\app\src\debug\AndroidManifest.xml:6:22-64
+15-->D:\api\signGO-Project\testcamera\android\app\src\debug\AndroidManifest.xml:6:5-66
+15-->D:\api\signGO-Project\testcamera\android\app\src\debug\AndroidManifest.xml:6:22-64
 16    <uses-permission android:name="android.permission.CAMERA" />
-16-->[:camera_android] C:\Users\abidi\Desktop\api\signGO-Project\testcamera\build\camera_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-65
-16-->[:camera_android] C:\Users\abidi\Desktop\api\signGO-Project\testcamera\build\camera_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-62
+16-->[:camera_android] D:\api\signGO-Project\testcamera\build\camera_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-65
+16-->[:camera_android] D:\api\signGO-Project\testcamera\build\camera_android\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-62
 17    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-17-->[:camera_android] C:\Users\abidi\Desktop\api\signGO-Project\testcamera\build\camera_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-71
-17-->[:camera_android] C:\Users\abidi\Desktop\api\signGO-Project\testcamera\build\camera_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:22-68
+17-->[:camera_android] D:\api\signGO-Project\testcamera\build\camera_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-71
+17-->[:camera_android] D:\api\signGO-Project\testcamera\build\camera_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:22-68
 18    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 18-->[com.google.android.exoplayer:exoplayer-core:2.18.7] C:\Users\abidi\.gradle\caches\transforms-3\e255c6ce9910a673f2619b479a7d74a8\transformed\jetified-exoplayer-core-2.18.7\AndroidManifest.xml:24:5-79
 18-->[com.google.android.exoplayer:exoplayer-core:2.18.7] C:\Users\abidi\.gradle\caches\transforms-3\e255c6ce9910a673f2619b479a7d74a8\transformed\jetified-exoplayer-core-2.18.7\AndroidManifest.xml:24:22-76
@@ -77,21 +77,21 @@
 63            android:value="2" />
 64
 65        <provider
-65-->[:image_picker_android] C:\Users\abidi\Desktop\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
+65-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
 66            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-66-->[:image_picker_android] C:\Users\abidi\Desktop\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
+66-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
 67            android:authorities="com.example.signgo.flutter.image_provider"
-67-->[:image_picker_android] C:\Users\abidi\Desktop\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
+67-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
 68            android:exported="false"
-68-->[:image_picker_android] C:\Users\abidi\Desktop\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
+68-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
 69            android:grantUriPermissions="true" >
-69-->[:image_picker_android] C:\Users\abidi\Desktop\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
+69-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
 70            <meta-data
-70-->[:image_picker_android] C:\Users\abidi\Desktop\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
+70-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
 71                android:name="android.support.FILE_PROVIDER_PATHS"
-71-->[:image_picker_android] C:\Users\abidi\Desktop\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
+71-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
 72                android:resource="@xml/flutter_image_picker_file_paths" />
-72-->[:image_picker_android] C:\Users\abidi\Desktop\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
+72-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
 73        </provider>
 74
 75        <uses-library

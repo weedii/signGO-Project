@@ -13,6 +13,7 @@ class VideoRecordingPage extends StatefulWidget {
 class _VideoRecordingPageState extends State<VideoRecordingPage> {
   late CameraController _controller;
   Timer? _timer;
+  bool _isRecording = false; // Flag to track recording status
 
   @override
   void initState() {
@@ -36,13 +37,17 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
       return;
     }
 
+    setState(() {
+      _isRecording = true; // Update the recording status
+    });
+
     // Start recording
     await _controller.startVideoRecording();
 
     setState(() {});
 
     // Start sending videos every 2 seconds
-    _timer = Timer.periodic(Duration(seconds: 1), (_) {
+    _timer = Timer.periodic(Duration(seconds: 3), (_) {
       recordAndSendVideo();
     });
   }
@@ -58,7 +63,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     final XFile videoFile = await _controller.stopVideoRecording();
 
     // Send video to the API
-    final url = Uri.parse('http://192.168.223.33:5001/upload');
+    final url = Uri.parse('http://172.22.101.51:5001/upload');
     final request = http.MultipartRequest('POST', url);
     request.files
         .add(await http.MultipartFile.fromPath('video', videoFile.path));
@@ -88,30 +93,123 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Video Recording'),
-      ),
-      body: SafeArea(
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Display the camera preview if the camera is initialized
-            _controller.value.isInitialized
-                ? AspectRatio(
-                    aspectRatio: 16 / 23,
-                    child: CameraPreview(_controller),
-                  )
-                : const Center(
-                    child: Text("No cameras available"),
+        title: const Row(
+          children: <Widget>[
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(right: 55),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'signGO',
+                    style: TextStyle(
+                      fontFamily: 'Pacifico',
+                      fontSize: 25.0,
+                      color: Colors.white,
+                    ),
                   ),
-
-            // Button to start recording
-            ElevatedButton(
-              onPressed: startRecording,
-              child: const Text('Start..'),
+                ),
+              ),
             ),
-            Text(apiResponse),
           ],
         ),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.blue,
+                Colors.purple,
+              ],
+            ),
+          ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(6.0),
+          child: Opacity(
+            opacity: 1,
+            child: Container(
+              height: 1.4,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+
+      // ZA BODY
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.blue,
+                  Colors.purple,
+                ],
+              ),
+            ),
+          ),
+          Column(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Display the camera preview if the camera is initialized
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2.0,
+                  ),
+                  borderRadius: BorderRadius.circular(
+                      50.0), // Adjust the radius value as needed
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      50.0), // Same radius value as the container
+                  child: _controller.value.isInitialized
+                      ? AspectRatio(
+                          aspectRatio: 16 / 23,
+                          child: CameraPreview(_controller),
+                        )
+                      : const Center(
+                          child: Text("No cameras available"),
+                        ),
+                ),
+              ),
+
+              Column(
+                children: [
+                  // Button to start recording
+                  if (!_isRecording)
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.white),
+                      ),
+                      onPressed: startRecording,
+                      child: const Text(
+                        'Start..',
+                        style: TextStyle(color: Colors.purple),
+                      ),
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: Text(
+                      apiResponse,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Pacifico',
+                        fontSize: 50,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

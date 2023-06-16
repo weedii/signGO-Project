@@ -26,11 +26,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
       bottomNavigationBar: CurvedNavigationBar(
         index: _selectedIndex,
         backgroundColor: Colors.transparent,
-        color: Colors.white,
+        color: Colors.transparent.withOpacity(0.4),
         items: const [
-          Icon(Icons.book, size: 30),
-          Icon(Icons.home, size: 30),
-          Icon(Icons.info, size: 30),
+          Icon(Icons.book, size: 30, color: Colors.white),
+          Icon(Icons.home, size: 30, color: Colors.white),
+          Icon(Icons.info, size: 30, color: Colors.white),
         ],
         onTap: (index) {
           setState(() {

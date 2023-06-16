@@ -116,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                   child: const Text(
-                    'Open Camera',
+                    '    Go Live    ',
                     style: TextStyle(color: Colors.purple),
                   ),
                 ),

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:signgo/bottomnavbar.dart';
-import 'package:signgo/homepage.dart';
 
 Future<void> main() async {
   ErrorWidget.builder = (FlutterErrorDetails details) {
     // To handle the red error page between home and camera
-    return const HomePage();
+    return const BottomNavBar();
   };
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const signGO());
