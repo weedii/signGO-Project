@@ -78,7 +78,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     final XFile videoFile = await _controller.stopVideoRecording();
 
     // Send video to the API
-    final url = Uri.parse('http://192.168.1.213:5001/upload');
+    final url = Uri.parse('http://172.22.101.51:5001/upload');
     final request = http.MultipartRequest('POST', url);
     request.files
         .add(await http.MultipartFile.fromPath('video', videoFile.path));
