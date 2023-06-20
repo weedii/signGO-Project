@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.signgo"
+    package="com.signgo.signgo"
     android:versionCode="1"
     android:versionName="1.0.0" >
 
@@ -14,21 +14,24 @@
     -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.any" />
+
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <permission
-        android:name="com.example.signgo.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:name="com.signgo.signgo.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.example.signgo.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+    <uses-permission android:name="com.signgo.signgo.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
         android:name="android.app.Application"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="signgo" >
+        android:label="signGO" >
         <activity
             android:name="com.example.signgo.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -64,7 +67,7 @@
 
         <provider
             android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-            android:authorities="com.example.signgo.flutter.image_provider"
+            android:authorities="com.signgo.signgo.flutter.image_provider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data
@@ -81,7 +84,7 @@
 
         <provider
             android:name="androidx.startup.InitializationProvider"
-            android:authorities="com.example.signgo.androidx-startup"
+            android:authorities="com.signgo.signgo.androidx-startup"
             android:exported="false" >
             <meta-data
                 android:name="androidx.profileinstaller.ProfileInstallerInitializer"

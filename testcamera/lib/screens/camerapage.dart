@@ -13,7 +13,8 @@ class VideoRecordingPage extends StatefulWidget {
 class _VideoRecordingPageState extends State<VideoRecordingPage> {
   late CameraController _controller;
   Timer? _timer;
-  bool _isRecording = false; // Flag to track recording status
+  bool _isRecordingInProgress = false; // Flag to track if recording
+  TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
@@ -38,7 +39,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     }
 
     setState(() {
-      _isRecording = true; // Update the recording status
+      _isRecordingInProgress = true; // Set recording in progress
     });
 
     // Start recording
@@ -49,6 +50,20 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     // Start sending videos every 2 seconds
     _timer = Timer.periodic(Duration(seconds: 3), (_) {
       recordAndSendVideo();
+    });
+  }
+
+  Future<void> stopRecording() async {
+    if (!_controller.value.isRecordingVideo) {
+      return;
+    }
+
+    // Stop recording
+    await _controller.stopVideoRecording();
+
+    setState(() {
+      _isRecordingInProgress = false; // Set recording in progress to false
+      apiResponse = "";
     });
   }
 
@@ -63,7 +78,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     final XFile videoFile = await _controller.stopVideoRecording();
 
     // Send video to the API
-    final url = Uri.parse('http://172.22.101.51:5001/upload');
+    final url = Uri.parse('http://192.168.1.213:5001/upload');
     final request = http.MultipartRequest('POST', url);
     request.files
         .add(await http.MultipartFile.fromPath('video', videoFile.path));
@@ -93,81 +108,22 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
-          children: <Widget>[
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(right: 55),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'signGO',
-                    style: TextStyle(
-                      fontFamily: 'Pacifico',
-                      fontSize: 25.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.blue,
-                Colors.purple,
-              ],
-            ),
-          ),
-        ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(6.0),
-          child: Opacity(
-            opacity: 1,
-            child: Container(
-              height: 1.4,
-              color: Colors.white,
-            ),
-          ),
-        ),
+        backgroundColor: Color.fromARGB(255, 18, 91, 116),
       ),
-
+      //
       // ZA BODY
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.blue,
-                  Colors.purple,
-                ],
-              ),
-            ),
+            color: Color.fromARGB(255, 18, 91, 116),
           ),
           Column(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Display the camera preview if the camera is initialized
               Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.white,
-                    width: 2.0,
-                  ),
-                  borderRadius: BorderRadius.circular(
-                      50.0), // Adjust the radius value as needed
-                ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(
-                      50.0), // Same radius value as the container
+                  // Same radius value as the container
                   child: _controller.value.isInitialized
                       ? AspectRatio(
                           aspectRatio: 16 / 23,
@@ -178,22 +134,51 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
                         ),
                 ),
               ),
-
+              SizedBox(
+                height: 20.0,
+              ),
               Column(
                 children: [
-                  // Button to start recording
-                  if (!_isRecording)
+                  // Button to start and stop recording
+                  if (_isRecordingInProgress)
                     ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                50.0), // Adjust the radius as desired
+                          ),
+                        ),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          Color.fromARGB(255, 11, 122, 159),
+                        ),
+                      ),
+                      onPressed: stopRecording,
+                      child: const Text(
+                        '                                    Stop                                    ',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  if (!_isRecordingInProgress) // Display stop button
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                50.0), // Adjust the radius as desired
+                          ),
+                        ),
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                          Color.fromARGB(255, 11, 122, 159),
+                        ),
                       ),
                       onPressed: startRecording,
                       child: const Text(
-                        'Start..',
-                        style: TextStyle(color: Colors.purple),
+                        '                                    Start                                    ',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
+
                   Padding(
                     padding: const EdgeInsets.only(top: 30),
                     child: Text(

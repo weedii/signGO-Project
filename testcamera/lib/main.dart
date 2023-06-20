@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:signgo/bottomnavbar.dart';
+import 'splash_screens/splash_screen1.dart';
+
 
 Future<void> main() async {
   ErrorWidget.builder = (FlutterErrorDetails details) {
@@ -7,18 +9,18 @@ Future<void> main() async {
     return const BottomNavBar();
   };
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const signGO());
+  runApp(const SignGO());
 }
 
-class signGO extends StatelessWidget {
-  const signGO({super.key});
+class SignGO extends StatelessWidget {
+  const SignGO({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'signGO app',
-      home: const BottomNavBar(),
+      home: const SplashScreen1(),
       theme: ThemeData(),
     );
   }

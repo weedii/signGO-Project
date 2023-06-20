@@ -8,120 +8,70 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..repeat(reverse: true);
+    _animation =
+        Tween<double>(begin: 1.1, end: 1.25).animate(_animationController);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Row(
-            children: <Widget>[
-              Expanded(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    'signGO',
-                    style: TextStyle(
-                      fontFamily: 'Pacifico',
-                      fontSize: 25.0,
-                      color: Colors.white,
+    return Scaffold(
+      //
+      // Zaa Body is here
+      body: Container(
+        child: Scaffold(
+          backgroundColor: Color.fromARGB(255, 18, 91, 116),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedBuilder(
+                animation: _animation,
+                builder: (context, child) {
+                  return Transform.scale(
+                    scale: _animation.value,
+                    child: GestureDetector(
+                      onTap: () {
+                        // Handle button tap here
+                        // For example, you can navigate to another page
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => VideoRecordingPage()),
+                        );
+                      },
+                      child: Image.asset(
+                        "assets/images/logo_last_edit.png",
+                      ),
                     ),
-                  ),
+                  );
+                },
+              ),
+              const Text(
+                "Go Live",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: "Pacifico",
+                  fontSize: 30.0,
                 ),
               ),
             ],
-          ),
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.blue,
-                  Colors.purple,
-                ],
-              ),
-            ),
-          ),
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(6.0),
-            child: Opacity(
-              opacity: 1,
-              child: Container(
-                height: 1.4,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-
-        //
-        // Zaa Body is here
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.blue,
-                Colors.purple,
-              ],
-            ),
-          ),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Hey, let's signGO",
-                  style: TextStyle(
-                    fontFamily: 'Pacifico',
-                    fontSize: 25.0,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                  width: 200.0,
-                  child: Divider(
-                    color: Colors.cyan[100],
-                  ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                  width: 150.0,
-                  child: Divider(
-                    color: Colors.cyan[100],
-                  ),
-                ),
-                SizedBox(
-                  height: 20.0,
-                  width: 90.0,
-                  child: Divider(
-                    color: Colors.cyan[100],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => VideoRecordingPage()),
-                    );
-                  },
-                  child: const Text(
-                    '    Go Live    ',
-                    style: TextStyle(color: Colors.purple),
-                  ),
-                ),
-              ],
-            ),
           ),
         ),
       ),
