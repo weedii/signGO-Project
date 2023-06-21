@@ -33,8 +33,6 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //
-      // Zaa Body is here
       body: Container(
         child: Scaffold(
           backgroundColor: Color.fromARGB(255, 18, 91, 116),
@@ -48,8 +46,6 @@ class _HomePageState extends State<HomePage>
                     scale: _animation.value,
                     child: GestureDetector(
                       onTap: () {
-                        // Handle button tap here
-                        // For example, you can navigate to another page
                         Navigator.push(
                           context,
                           MaterialPageRoute(

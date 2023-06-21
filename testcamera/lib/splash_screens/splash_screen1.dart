@@ -11,7 +11,30 @@ class SplashScreen1 extends StatefulWidget {
   _SplashScreen1State createState() => _SplashScreen1State();
 }
 
-class _SplashScreen1State extends State<SplashScreen1> {
+class _SplashScreen1State extends State<SplashScreen1> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 1),
+      end: Offset.zero,
+    ).animate(_animationController);
+    _animationController.forward();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
@@ -29,11 +52,16 @@ class _SplashScreen1State extends State<SplashScreen1> {
           )
         ],
       ),
-      backgroundColor: Color.fromARGB(255, 10, 35, 43),
-      nextScreen: BottomNavBar(),
+      backgroundColor: const Color.fromARGB(255, 10, 35, 43),
+      nextScreen: Scaffold(
+        body: SlideTransition(
+          position: _slideAnimation,
+          child: BottomNavBar(),
+        ),
+      ),
       splashIconSize: 500,
       duration: 1900,
-      pageTransitionType: PageTransitionType.fade,
+      pageTransitionType: PageTransitionType.rightToLeft,
     );
   }
 }

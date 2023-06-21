@@ -5,7 +5,7 @@ import 'splash_screens/splash_screen1.dart';
 
 Future<void> main() async {
   ErrorWidget.builder = (FlutterErrorDetails details) {
-    // To handle the red error page between home and camera
+    // To handle the red screen error page between home an camera
     return const BottomNavBar();
   };
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,85 +1,32 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LearnPage extends StatefulWidget {
-  const LearnPage({Key? key}) : super(key: key);
+  const LearnPage({super.key});
 
   @override
   State<LearnPage> createState() => _LearnPageState();
 }
 
 class _LearnPageState extends State<LearnPage> {
-  final CategoriesScroller categoriesScroller = CategoriesScroller();
   ScrollController controller = ScrollController();
   bool closeTopContainer = false;
-  double topContainer = 0;
 
-  List<Widget> itemsData = [];
-
-  void getPostsData() {
-    List<dynamic> responseList = FOOD_DATA;
-    List<Widget> listItems = [];
-    responseList.forEach((post) {
-      listItems.add(Container(
-          height: 150,
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(color: Colors.black.withAlpha(100), blurRadius: 10.0),
-              ]),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      post["name"],
-                      style: const TextStyle(
-                          fontSize: 28, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      post["brand"],
-                      style: const TextStyle(fontSize: 17, color: Colors.grey),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "\$ ${post["price"]}",
-                      style: const TextStyle(
-                          fontSize: 25,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-                Image.asset(
-                  "assets/images/${post["image"]}",
-                  height: double.infinity,
-                )
-              ],
-            ),
-          )));
-    });
-    setState(() {
-      itemsData = listItems;
-    });
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri(scheme: "https", host: url);
+    if (!await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw "Can not launch url";
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    getPostsData();
     controller.addListener(() {
-      double value = controller.offset / 119;
-
       setState(() {
-        topContainer = value;
         closeTopContainer = controller.offset > 50;
       });
     });
@@ -87,204 +34,242 @@ class _LearnPageState extends State<LearnPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    final double categoryHeight = size.height * 0.30;
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 18, 91, 116),
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Color.fromARGB(255, 18, 91, 116),
-        ),
-        body: Container(
-          height: size.height,
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 18, 91, 116),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(10),
           child: Column(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Text(
-                    "You can learn",
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  ),
-                  Text(
-                    "sign language ",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  ),
-                  Text(
-                    "here",
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              AnimatedOpacity(
-                duration: const Duration(milliseconds: 300),
-                opacity: closeTopContainer ? 0 : 1,
-                child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    width: size.width,
-                    alignment: Alignment.topCenter,
-                    height: closeTopContainer ? 0 : categoryHeight,
-                    child: categoriesScroller),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  controller: controller,
-                  itemCount: itemsData.length,
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    double scale = 1.0;
-                    if (topContainer > 0.5) {
-                      scale = index + 0.5 - topContainer;
-                      if (scale < 0) {
-                        scale = 0;
-                      } else if (scale > 1) {
-                        scale = 1;
-                      }
-                    }
-                    return Opacity(
-                      opacity: scale,
-                      child: Transform(
-                        transform: Matrix4.identity()..scale(scale, scale),
-                        alignment: Alignment.bottomCenter,
-                        child: Align(
-                            heightFactor: 0.7,
-                            alignment: Alignment.topCenter,
-                            child: itemsData[index]),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class CategoriesScroller extends StatelessWidget {
-  const CategoriesScroller();
-
-  @override
-  Widget build(BuildContext context) {
-    final double categoryHeight =
-        MediaQuery.of(context).size.height * 0.30 - 50;
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      scrollDirection: Axis.horizontal,
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        child: FittedBox(
-          fit: BoxFit.fill,
-          alignment: Alignment.topCenter,
-          child: Row(
-            children: <Widget>[
-              Container(
-                width: 150,
-                margin: EdgeInsets.only(right: 20),
-                height: categoryHeight,
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 26, 140, 179),
-                    borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 2000),
+                alignment: Alignment.topCenter,
+                height: closeTopContainer ? 0 : 280,
                 child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Most\nFavorites",
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "20 Items",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
+                  padding: const EdgeInsets.only(left: 23),
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.all(10),
+                        width: 300,
+                        height: 280,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 26, 140, 179),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Here you can Learn   \n    sign language",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Pacifico",
+                                  fontSize: 20,
+                                ),
+                              ),
+                              Image.asset("assets/images/hand.gif", width: 150)
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
               ),
-              Container(
-                width: 150,
-                margin: EdgeInsets.only(right: 20),
-                height: categoryHeight,
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 53, 129, 154),
-                    borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Newest",
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
+              SizedBox(height: 15.0),
+              SingleChildScrollView(
+                controller: controller,
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        _launchURL("www.signlanguage101.com");
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        width: 400,
+                        height: 110,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 40, 148, 162),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        SizedBox(
-                          height: 10,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Click Here!",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: "Pacifico",
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  SizedBox(width: 30),
+                                  Image.asset("assets/images/site-0.png"),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        Text(
-                          "20 Items",
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    GestureDetector(
+                      onTap: () {
+                        _launchURL("www.startasl.com");
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        width: 400,
+                        height: 110,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 57, 193, 211),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Click Here!",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: "Pacifico",
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  SizedBox(width: 30),
+                                  Image.asset("assets/images/site-1.png"),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        _launchURL("www.lessontutor.com");
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        width: 400,
+                        height: 110,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 40, 148, 162),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Click Here!",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: "Pacifico",
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  SizedBox(width: 30),
+                                  Image.asset("assets/images/site-2.png"),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        _launchURL("www.startasl.com");
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        width: 400,
+                        height: 110,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 57, 193, 211),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Click Here!",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: "Pacifico",
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  SizedBox(width: 30),
+                                  Image.asset(
+                                    "assets/images/site-3.png",
+                                    width: 200,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        _launchURL("www.signschool.com");
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        width: 400,
+                        height: 110,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 40, 148, 162),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Click Here!",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: "Pacifico",
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  SizedBox(width: 30),
+                                  Image.asset("assets/images/site-4.png",
+                                      width: 200),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              Container(
-                width: 150,
-                margin: EdgeInsets.only(right: 20),
-                height: categoryHeight,
-                decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 20, 36, 41),
-                    borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Super\nSaving",
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "20 Items",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              )
             ],
           ),
         ),

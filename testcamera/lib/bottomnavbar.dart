@@ -26,7 +26,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       extendBody: true,
       bottomNavigationBar: CurvedNavigationBar(
         index: _selectedIndex,
-        backgroundColor: Color.fromARGB(255, 18, 91, 116),
+        backgroundColor: Colors.transparent,
         color: Colors.transparent.withOpacity(0.4),
         items: const [
           Icon(Icons.book, size: 30, color: Colors.white),

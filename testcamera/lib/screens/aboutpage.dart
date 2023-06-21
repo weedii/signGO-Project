@@ -14,7 +14,7 @@ class _AboutPageState extends State<AboutPage> {
       //
       // Zaa Body is here
       body: Scaffold(
-        backgroundColor: Color(0xFF093442),
+        backgroundColor: Color.fromARGB(255, 18, 91, 116),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

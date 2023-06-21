@@ -13,7 +13,7 @@ class VideoRecordingPage extends StatefulWidget {
 class _VideoRecordingPageState extends State<VideoRecordingPage> {
   late CameraController _controller;
   Timer? _timer;
-  bool _isRecordingInProgress = false; // Flag to track if recording
+  bool _isRecordingInProgress = false; // Track if recording
   TextEditingController controller = TextEditingController();
 
   @override
@@ -39,7 +39,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     }
 
     setState(() {
-      _isRecordingInProgress = true; // Set recording in progress
+      _isRecordingInProgress = true;
     });
 
     // Start recording
@@ -47,7 +47,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
 
     setState(() {});
 
-    // Start sending videos every 2 seconds
+    // Send short videos every 3 seconds
     _timer = Timer.periodic(Duration(seconds: 3), (_) {
       recordAndSendVideo();
     });
@@ -62,35 +62,35 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     await _controller.stopVideoRecording();
 
     setState(() {
-      _isRecordingInProgress = false; // Set recording in progress to false
+      _isRecordingInProgress = false;
       apiResponse = "";
     });
   }
 
-  String apiResponse = ''; // Variable to store the API response
+  String apiResponse = '';
 
   Future<void> recordAndSendVideo() async {
     if (!_controller.value.isRecordingVideo) {
       return;
     }
 
-    // Stop recording
+
     final XFile videoFile = await _controller.stopVideoRecording();
 
-    // Send video to the API
-    final url = Uri.parse('http://172.22.101.51:5001/upload');
+    // Send every video to the API
+    final url = Uri.parse('http://192.168.1.213:5001/upload');
     final request = http.MultipartRequest('POST', url);
     request.files
         .add(await http.MultipartFile.fromPath('video', videoFile.path));
     final response = await request.send();
 
-    // Handle the API response here
+    // Print the API response here to check
     print('API Status Code: ${response.statusCode}');
 
     final responseString = await response.stream.bytesToString();
     setState(() {
       apiResponse =
-          responseString; // Update the apiResponse variable with the API response
+          responseString;
     });
 
     // Continue recording
@@ -118,12 +118,9 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
             color: Color.fromARGB(255, 18, 91, 116),
           ),
           Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Display the camera preview if the camera is initialized
               Container(
                 child: ClipRRect(
-                  // Same radius value as the container
                   child: _controller.value.isInitialized
                       ? AspectRatio(
                           aspectRatio: 16 / 23,
@@ -146,7 +143,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
                         shape: MaterialStateProperty.all<OutlinedBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
-                                50.0), // Adjust the radius as desired
+                                50.0),
                           ),
                         ),
                         backgroundColor: MaterialStateProperty.all<Color>(
@@ -159,13 +156,13 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-                  if (!_isRecordingInProgress) // Display stop button
+                  if (!_isRecordingInProgress)
                     ElevatedButton(
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all<OutlinedBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
-                                50.0), // Adjust the radius as desired
+                                50.0),
                           ),
                         ),
                         backgroundColor: MaterialStateProperty.all<Color>(
