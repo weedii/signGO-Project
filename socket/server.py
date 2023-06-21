@@ -8,10 +8,10 @@ from cvzone.HandTrackingModule import HandDetector
 app = Flask(__name__)
 i = 0
 
-classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'HI', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'communicate', 'deaf', 'flask',
-           'flutter', 'help', 'hope', 'khamassi', 'like', 'love', 'made by', 'melek', 'my name is', 'nice', 'people', 'python', 'technologie', 'this application', 'wael', 'we', 'you']
+classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'HI', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Wael', 'X', 'Y', 'Z', 'communicate', 'deaf',
+           'flask', 'flutter', 'help', 'This applicationl', 'khamassi', 'like', 'love', 'made by', 'melek', 'my name is', 'nice', 'people', 'python', 'the technologie', 'this application', 'we', 'you']
 x_model = tf.keras.models.load_model(
-    "D:/api/signGO-Project/socket/xx_eras_model.h5")
+    "D:/api/signGO-Project/socket/khaessi_mouch_houni_eras_model.h5")
 
 
 @app.route('/upload', methods=['POST'])
@@ -51,8 +51,7 @@ def upload():
 
         frame_path = os.path.join(
             frame_output_dir, f'frame_{frame_count:05d}.jpg')
-        #cv2.imwrite(frame_path, frame)
-        
+        # cv2.imwrite(frame_path, frame)
 
         hands, img = detector.findHands(frame)
 
@@ -67,13 +66,13 @@ def upload():
                 img_resized = cv2.resize(img_crop, target_size)
                 img_preprocessed = img_resized / 225.0
                 img_input = np.expand_dims(img_preprocessed, axis=0)
-                #cv2.imwrite(frame_path, img_resized)
+                cv2.imwrite(frame_path, img_resized)
                 frame_count += 1
 
                 prediction = x_model.predict(img_input)
                 predicted_class = np.argmax(prediction)
                 confidence = prediction[0][predicted_class]
-                if confidence >= 0.6:
+                if confidence >= 0.7:
                     # Only display prediction if confidence is above threshold
                     res = classes[predicted_class]
 
@@ -89,7 +88,7 @@ def upload():
     capture.release()
 
     if res is None:
-        return "nothing"
+        return ""
     return res
 
 
