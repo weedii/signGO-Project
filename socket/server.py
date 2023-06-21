@@ -18,25 +18,20 @@ x_model = tf.keras.models.load_model(
 def upload():
     global i
 
-    # Check if the request contains a file
     if 'video' not in request.files:
         return 'No video file provided', 400
 
     video_file = request.files['video']
 
-    # Create a directory to store the frames
     frames_dir = 'result/'
     os.makedirs(frames_dir, exist_ok=True)
 
-    # Save video
     video_path = os.path.join(frames_dir, f'video{i}.mp4')
     video_file.save(video_path)
 
-    # Convert video to frames
     frame_output_dir = os.path.join(frames_dir, 'frames')
     os.makedirs(frame_output_dir, exist_ok=True)
 
-    # Read video frames and save them as images
     capture = cv2.VideoCapture(video_path)
     frame_count = 0
     target_size = (224, 224)
@@ -59,7 +54,6 @@ def upload():
             x, y, w, h = hand['bbox']
             if x >= 20 and y >= 20:
                 img_crop = img[y - 20:y + h + 20, x - 20:x + w + 20]
-                # Handle edge case when hand is near the borders
                 if img_crop.size == 0:
                     continue
 
@@ -73,18 +67,15 @@ def upload():
                 predicted_class = np.argmax(prediction)
                 confidence = prediction[0][predicted_class]
                 if confidence >= 0.7:
-                    # Only display prediction if confidence is above threshold
                     res = classes[predicted_class]
 
     if 'res' not in locals():
         res = None
 
-    # Create a JSON response
     response = {
         'predicted_class': res
     }
 
-    # Release the video capture
     capture.release()
 
     if res is None:
@@ -93,5 +84,4 @@ def upload():
 
 
 if __name__ == '__main__':
-    # Run the Flask application
     app.run(debug=True, host='0.0.0.0', port=5001)
