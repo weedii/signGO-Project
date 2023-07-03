@@ -13,22 +13,22 @@
 13         to allow setting breakpoints, to provide hot reload, etc.
 14    -->
 15    <uses-permission android:name="android.permission.INTERNET" />
-15-->D:\api\signGO-Project\testcamera\android\app\src\main\AndroidManifest.xml:34:5-66
-15-->D:\api\signGO-Project\testcamera\android\app\src\main\AndroidManifest.xml:34:22-64
+15-->D:\api\signGO-Project\signGO\android\app\src\main\AndroidManifest.xml:34:5-66
+15-->D:\api\signGO-Project\signGO\android\app\src\main\AndroidManifest.xml:34:22-64
 16    <uses-permission android:name="android.permission.CAMERA" />
-16-->D:\api\signGO-Project\testcamera\android\app\src\main\AndroidManifest.xml:35:5-65
-16-->D:\api\signGO-Project\testcamera\android\app\src\main\AndroidManifest.xml:35:22-62
+16-->D:\api\signGO-Project\signGO\android\app\src\main\AndroidManifest.xml:35:5-65
+16-->D:\api\signGO-Project\signGO\android\app\src\main\AndroidManifest.xml:35:22-62
 17
 18    <uses-feature android:name="android.hardware.camera.any" />
-18-->D:\api\signGO-Project\testcamera\android\app\src\main\AndroidManifest.xml:36:5-64
-18-->D:\api\signGO-Project\testcamera\android\app\src\main\AndroidManifest.xml:36:19-61
+18-->D:\api\signGO-Project\signGO\android\app\src\main\AndroidManifest.xml:36:5-64
+18-->D:\api\signGO-Project\signGO\android\app\src\main\AndroidManifest.xml:36:19-61
 19
 20    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-20-->D:\api\signGO-Project\testcamera\android\app\src\main\AndroidManifest.xml:37:5-79
-20-->D:\api\signGO-Project\testcamera\android\app\src\main\AndroidManifest.xml:37:22-76
+20-->D:\api\signGO-Project\signGO\android\app\src\main\AndroidManifest.xml:37:5-79
+20-->D:\api\signGO-Project\signGO\android\app\src\main\AndroidManifest.xml:37:22-76
 21    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-21-->[:camera_android] D:\api\signGO-Project\testcamera\build\camera_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-71
-21-->[:camera_android] D:\api\signGO-Project\testcamera\build\camera_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:22-68
+21-->[:camera_android] D:\api\signGO-Project\signGO\build\camera_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-71
+21-->[:camera_android] D:\api\signGO-Project\signGO\build\camera_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:22-68
 22
 23    <permission
 23-->[androidx.core:core:1.10.1] C:\Users\abidi\.gradle\caches\transforms-3\c4988ff80110f75080a936fc6f044848\transformed\core-1.10.1\AndroidManifest.xml:22:5-24:47
@@ -82,31 +82,31 @@
 66            android:value="2" />
 67
 68        <provider
-68-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
+68-->[:image_picker_android] D:\api\signGO-Project\signGO\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
 69            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-69-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
+69-->[:image_picker_android] D:\api\signGO-Project\signGO\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-82
 70            android:authorities="com.signgo.signgo.flutter.image_provider"
-70-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
+70-->[:image_picker_android] D:\api\signGO-Project\signGO\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-74
 71            android:exported="false"
-71-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
+71-->[:image_picker_android] D:\api\signGO-Project\signGO\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
 72            android:grantUriPermissions="true" >
-72-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
+72-->[:image_picker_android] D:\api\signGO-Project\signGO\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
 73            <meta-data
-73-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
+73-->[:image_picker_android] D:\api\signGO-Project\signGO\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:75
 74                android:name="android.support.FILE_PROVIDER_PATHS"
-74-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
+74-->[:image_picker_android] D:\api\signGO-Project\signGO\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
 75                android:resource="@xml/flutter_image_picker_file_paths" />
-75-->[:image_picker_android] D:\api\signGO-Project\testcamera\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
+75-->[:image_picker_android] D:\api\signGO-Project\signGO\build\image_picker_android\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-72
 76        </provider>
 77
 78        <activity
-78-->[:url_launcher_android] D:\api\signGO-Project\testcamera\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-13:74
+78-->[:url_launcher_android] D:\api\signGO-Project\signGO\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-13:74
 79            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
-79-->[:url_launcher_android] D:\api\signGO-Project\testcamera\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-74
+79-->[:url_launcher_android] D:\api\signGO-Project\signGO\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-74
 80            android:exported="false"
-80-->[:url_launcher_android] D:\api\signGO-Project\testcamera\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-37
+80-->[:url_launcher_android] D:\api\signGO-Project\signGO\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-37
 81            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-81-->[:url_launcher_android] D:\api\signGO-Project\testcamera\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-71
+81-->[:url_launcher_android] D:\api\signGO-Project\signGO\build\url_launcher_android\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-71
 82
 83        <uses-library
 83-->[androidx.window:window:1.0.0-beta04] C:\Users\abidi\.gradle\caches\transforms-3\25cee5f028ac2a6b79fd6278ff5b59e2\transformed\jetified-window-1.0.0-beta04\AndroidManifest.xml:25:9-27:40

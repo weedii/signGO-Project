@@ -1,5 +1,3 @@
-// ignore_for_file: unused_local_variable
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -11,23 +9,21 @@ class VideoRecordingPage extends StatefulWidget {
 }
 
 class _VideoRecordingPageState extends State<VideoRecordingPage> {
-   late CameraController _controller ;
+  late CameraController _controller;
   Timer? _timer;
   bool _isRecordingInProgress = false; // Track if recording
-  TextEditingController controller = TextEditingController();
-
+  String apiResponse = "";
 
   @override
   void initState() {
     super.initState();
 
     // Initialize the camera
-    WidgetsFlutterBinding.ensureInitialized();
     availableCameras().then((cameras) {
-      _controller = CameraController(cameras[1], ResolutionPreset.low);
+      _controller = CameraController(cameras[1], ResolutionPreset.low,
+          enableAudio: false);
       _controller.initialize().then((_) {
         if (!mounted) {
-          
           return;
         }
         setState(() {});
@@ -49,8 +45,8 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
 
     setState(() {});
 
-    // Send short videos every 3 seconds
-    _timer = Timer.periodic(Duration(seconds: 3), (_) {
+    // Send short videos every 2 seconds
+    _timer = Timer.periodic(Duration(seconds: 2), (_) {
       recordAndSendVideo();
     });
   }
@@ -69,18 +65,17 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
     });
   }
 
-  String apiResponse = '';
+  
 
   Future<void> recordAndSendVideo() async {
     if (!_controller.value.isRecordingVideo) {
       return;
     }
 
-
     final XFile videoFile = await _controller.stopVideoRecording();
 
     // Send every video to the API
-    final url = Uri.parse('http://172.22.101.51:5001/upload');
+    final url = Uri.parse('http://192.168.1.213:5001/upload');
     final request = http.MultipartRequest('POST', url);
     request.files
         .add(await http.MultipartFile.fromPath('video', videoFile.path));
@@ -91,8 +86,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
 
     final responseString = await response.stream.bytesToString();
     setState(() {
-      apiResponse =
-          responseString;
+      apiResponse = responseString;
     });
 
     // Continue recording
@@ -144,8 +138,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all<OutlinedBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                50.0),
+                            borderRadius: BorderRadius.circular(50.0),
                           ),
                         ),
                         backgroundColor: MaterialStateProperty.all<Color>(
@@ -163,8 +156,7 @@ class _VideoRecordingPageState extends State<VideoRecordingPage> {
                       style: ButtonStyle(
                         shape: MaterialStateProperty.all<OutlinedBorder>(
                           RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                50.0),
+                            borderRadius: BorderRadius.circular(50.0),
                           ),
                         ),
                         backgroundColor: MaterialStateProperty.all<Color>(
