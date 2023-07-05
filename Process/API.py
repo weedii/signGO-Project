@@ -19,38 +19,37 @@ def upload():
     res = ""
     video_file = request.files['video']
 
-    video_path = "recieved video/video.mp4"
+    video_path = "result/video.mp4"
     video_file.save(video_path)
+
 
     capture = cv2.VideoCapture(video_path)
     target_size = (224, 224)
     detector = HandDetector(maxHands=2)
 
-    for j in range(0, 2):
-        ret, frame = capture.read()
+    ret, frame = capture.read()
 
-        if not ret:
-            break
+    if not ret:
+        return
 
-        hands, img = detector.findHands(frame)
+    hands, img = detector.findHands(frame)
 
-        for hand in hands:
-            x, y, w, h = hand['bbox']
-            if x >= 20 and y >= 20:
-                img_crop = img[y - 20:y + h + 20, x - 20:x + w + 20]
-                if img_crop.size == 0:
-                    continue
+    for hand in hands:
+        x, y, w, h = hand['bbox']
+        if x >= 20 and y >= 20:
+            img_crop = img[y - 20:y + h + 20, x - 20:x + w + 20]
 
-                img_resized = cv2.resize(img_crop, target_size)
-                img_preprocessed = img_resized / 225.0
-                img_input = np.expand_dims(img_preprocessed, axis=0)
+            img_resized = cv2.resize(img_crop, target_size)
+            img_preprocessed = img_resized / 225.0
+            img_input = np.expand_dims(img_preprocessed, axis=0)
 
-                prediction = x_model.predict(img_input)
-                predicted_class = np.argmax(prediction)
-                confidence = prediction[0][predicted_class]
-                if confidence >= 0.7:
-                    res = classes[predicted_class]
-
+            prediction = x_model.predict(img_input)
+            predicted_class = np.argmax(prediction)
+            confidence = prediction[0][predicted_class]
+            if confidence >= 0.7:
+                res = classes[predicted_class]
+    capture.release()
+    os.remove(video_path)
     return res
 
 
